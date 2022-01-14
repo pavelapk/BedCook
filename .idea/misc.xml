@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Pavel/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_fullscreen.xml" value="0.2749094202898551" />
+        <entry key="..\:/Users/Pavel/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_fullscreen.xml" value="0.33" />
+        <entry key="..\:/Users/Pavel/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_profile.xml" value="0.18" />
+        <entry key="..\:/Users/Pavel/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_start.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Pavel/AndroidStudioProjects/BedCook/app/src/main/res/layout/item_pickable_object.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Pavel/AndroidStudioProjects/BedCook/app/src/main/res/layout/item_selectable_object.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Pavel/AndroidStudioProjects/sceneview-android/arsceneview/src/main/res/drawable/sceneview_info_background.xml" value="0.3828125" />
       </map>
     </option>
   </component>

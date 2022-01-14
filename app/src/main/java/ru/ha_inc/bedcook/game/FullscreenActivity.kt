@@ -1,7 +1,8 @@
-package ru.ha_inc.bedcook
+package ru.ha_inc.bedcook.game
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,7 @@ import com.google.ar.core.Config
 import io.github.sceneview.ar.arcore.depthEnabled
 import io.github.sceneview.ar.arcore.instantPlacementEnabled
 import io.github.sceneview.ar.node.ArNode
+import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
 
 /**
@@ -21,6 +23,18 @@ class FullscreenActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityFullscreenBinding::bind)
     private var modelNode: ArNode? = null
+
+    private val objects = listOf(
+        SelectableObject("Торт", R.drawable.sceneview_logo),
+        SelectableObject("Торт1", R.drawable.sceneview_logo),
+        SelectableObject("Торт2", R.drawable.sceneview_logo),
+        SelectableObject("Торт3", R.drawable.sceneview_logo),
+    )
+
+    private val adapter =
+        SelectableObjectAdapter(objects) {
+            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -33,8 +47,17 @@ class FullscreenActivity : AppCompatActivity() {
             it.lightEstimationMode = Config.LightEstimationMode.ENVIRONMENTAL_HDR
             it.cloudAnchorMode = Config.CloudAnchorMode.DISABLED
             it.planeFindingMode = Config.PlaneFindingMode.HORIZONTAL
-            it.focusMode = Config.FocusMode.AUTO
+            it.updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
+            it.focusMode =
+                Config.FocusMode.AUTO // don't work when updateMode == LATEST_CAMERA_IMAGE
         }
+//        binding.sceneView.planeRenderer.planeRendererMode =
+//            PlaneRenderer.PlaneRendererMode.RENDER_TOP_MOST
+
+        binding.sceneView.onARCoreException = {
+            it.printStackTrace()
+        }
+
         binding.sceneView.onTouchAr = { hitResult, _ ->
             Log.d("DADAYA", hitResult.distance.toString())
             Log.d("DADAYA", hitResult.hitPose.toString())
@@ -46,13 +69,17 @@ class FullscreenActivity : AppCompatActivity() {
                 binding.sceneView.removeChild(this)
                 destroy()
             }
+            binding.sceneView.planeRenderer.isEnabled = true
             modelNode = null
         }
+
+        binding.recyclerSelectObject.adapter = adapter
     }
 
     private fun anchorOrMove(anchor: Anchor) {
         if (modelNode == null) {
 //            isLoading = true
+            binding.sceneView.planeRenderer.isEnabled = false
             modelNode = ArNode(
                 context = this,
                 coroutineScope = lifecycleScope,
