@@ -9,6 +9,3 @@ rootProject.name = "BedCook"
 include ':app'
 include ':sceneview'
 include ':arsceneview'
-
-project(':sceneview').projectDir = file('../sceneview-android/sceneview')
-project(':arsceneview').projectDir = file('../sceneview-android/arsceneview')

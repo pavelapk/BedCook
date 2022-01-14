@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
 import ru.ha_inc.bedcook.databinding.ActivityStartBinding
+import ru.ha_inc.bedcook.game.FullscreenActivity
 import ru.ha_inc.bedcook.profile.ProfileActivity
 
 class StartActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class StartActivity : AppCompatActivity() {
         }
 
         binding.btnRules.setOnClickListener {
-//            startActivity(Intent(this, ))
+            startActivity(Intent(this, FullscreenActivity::class.java))
         }
 
         viewModel.username.observe(this) {
