@@ -88,7 +88,7 @@ public class TranslationController extends BaseTransformationController<DragGest
     @Override
     public void onFrameUpdated(FrameTime frameTime, Node node) {
         updatePosition(frameTime);
-        updateRotation(frameTime);
+//        updateRotation(frameTime);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class TranslationController extends BaseTransformationController<DragGest
 
         Vector3 nodeBack = Quaternion.rotateVector(nodeRotation, Vector3.back());
 
-        Log.d("DADAYA", "startTransformation: " + nodePosition.toString());
+//        Log.d("DADAYA", "startTransformation: " + nodePosition.toString());
 
         Vector3 initialForwardInWorld = Quaternion.rotateVector(nodeRotation, Vector3.forward());
         Node parent = transformableNode.getParentNode();
@@ -141,6 +141,8 @@ public class TranslationController extends BaseTransformationController<DragGest
 
         return true;
     }
+
+    private Matrix _transformationMatrixInverted = new Matrix();
 
     @Override
     public void onContinueTransformation(DragGesture gesture) {
@@ -169,25 +171,30 @@ public class TranslationController extends BaseTransformationController<DragGest
                 Plane plane = (Plane) trackable;
                 if (plane.isPoseInPolygon(pose) && allowedPlaneTypes.contains(plane.getType())) {
                     desiredLocalPosition = new Vector3(pose.tx(), pose.ty(), pose.tz());
-                    desiredLocalRotation = new Quaternion(pose.qx(), pose.qy(), pose.qz(), pose.qw());
-                    Log.d("DADAYA", "continueBefore: " + desiredLocalPosition);
-                    Node parent = getTransformableNode().getParentNode();
-                    if (parent != null && desiredLocalPosition != null && desiredLocalRotation != null) {
-                        Matrix parentNodeTransformMatrix = parent.getTransformationMatrix();
-                        Vector3 parentNodeScale = new Vector3();
-                        parentNodeTransformMatrix.decomposeScale(parentNodeScale);
-                        Quaternion parentNodeRotation = new Quaternion();
-                        parentNodeTransformMatrix.decomposeRotation(parentNodeScale, parentNodeRotation);
+//                    desiredLocalRotation = new Quaternion(pose.qx(), pose.qy(), pose.qz(), pose.qw());
+//                    Log.d("DADAYA", "continueBefore: " + desiredLocalPosition);
+                    ArNode node = (ArNode) getTransformableNode();
+                    Matrix.invert(node.getWorldTransformationMatrix(), _transformationMatrixInverted);
+                    desiredLocalPosition = _transformationMatrixInverted.transformPoint(desiredLocalPosition);
+//                    Node parent = getTransformableNode().getParentNode();
+//                    if (parent != null && desiredLocalPosition != null && desiredLocalRotation != null) {
+//                        Matrix parentNodeTransformMatrix = parent.getTransformationMatrix();
+//                        Vector3 parentNodeScale = new Vector3();
+//                        parentNodeTransformMatrix.decomposeScale(parentNodeScale);
+//                        Quaternion parentNodeRotation = new Quaternion();
+//                        parentNodeTransformMatrix.decomposeRotation(parentNodeScale, parentNodeRotation);
+//
+//                        desiredLocalPosition = parent.getTransformationMatrix().transformPoint(desiredLocalPosition);
+//                        desiredLocalRotation =
+//                                Quaternion.multiply(parentNodeRotation.inverted(),
+//                                        Preconditions.checkNotNull(desiredLocalRotation));
+//                    }
+//                    Log.d("DADAYA", "continueAfter: " + desiredLocalPosition);
 
-                        desiredLocalPosition = parent.getTransformationMatrix().transformPoint(desiredLocalPosition);
-                        desiredLocalRotation =
-                                Quaternion.multiply(parentNodeRotation.inverted(),
-                                        Preconditions.checkNotNull(desiredLocalRotation));
-                    }
-                    Log.d("DADAYA", "continueAfter: " + desiredLocalPosition);
 
-                    desiredLocalRotation =
-                            calculateFinalDesiredLocalRotation(Preconditions.checkNotNull(desiredLocalRotation));
+//                    desiredLocalPosition = Vector3.subtract(desiredLocalPosition, initialPosition);
+//                    desiredLocalRotation =
+//                            calculateFinalDesiredLocalRotation(Preconditions.checkNotNull(desiredLocalRotation));
                     lastArHitResult = hit;
                     break;
                 }
@@ -205,6 +212,17 @@ public class TranslationController extends BaseTransformationController<DragGest
         if (hitResult.getTrackable().getTrackingState() == TrackingState.TRACKING) {
             ArNode anchorNode = getAnchorNodeOrDie();
 
+            Matrix nodeTransformMatrix = anchorNode.getTransformationMatrix();
+            Vector3 nodePosition = new Vector3();
+            nodeTransformMatrix.decomposeTranslation(nodePosition);
+            Vector3 nodeScale = new Vector3();
+            nodeTransformMatrix.decomposeScale(nodeScale);
+            Quaternion nodeRotation = new Quaternion();
+            nodeTransformMatrix.decomposeRotation(nodeScale, nodeRotation);
+
+            anchorNode.setWorldPosition(nodePosition, false);
+            anchorNode.setWorldRotation(nodeRotation, false);
+
             Anchor oldAnchor = anchorNode.getAnchor();
             if (oldAnchor != null) {
                 oldAnchor.detach();
@@ -212,8 +230,10 @@ public class TranslationController extends BaseTransformationController<DragGest
 
             Anchor newAnchor = hitResult.createAnchor();
             anchorNode.setAnchor(newAnchor);
+            anchorNode.forceWorldRotationToTarget();
+            anchorNode.setRotationQuaternion(Quaternion.multiply(nodeRotation, getRotationFromPose(newAnchor.getPose()).inverted()));
 
-            Log.d("DADAYA", "endTransformation: " + Arrays.toString(newAnchor.getPose().getTranslation()));
+//            Log.d("DADAYA", "endTransformation: " + Arrays.toString(newAnchor.getPose().getTranslation()));
 
 // TODO: View if it is usefull
 
@@ -242,7 +262,16 @@ public class TranslationController extends BaseTransformationController<DragGest
         }
 
         desiredLocalPosition = Vector3.zero();
-        desiredLocalRotation = calculateFinalDesiredLocalRotation(Quaternion.identity());
+        getTransformableNode().setPosition(desiredLocalPosition);
+//        desiredLocalRotation = calculateFinalDesiredLocalRotation(Quaternion.identity());
+    }
+
+    private Vector3 getPositionFromPose(Pose pose) {
+        return new Vector3(pose.tx(), pose.ty(), pose.tz());
+    }
+
+    private Quaternion getRotationFromPose(Pose pose) {
+        return new Quaternion(pose.qx(), pose.qy(), pose.qz(), pose.qw());
     }
 
     private ArNode getAnchorNodeOrDie() {
@@ -265,7 +294,7 @@ public class TranslationController extends BaseTransformationController<DragGest
         }
 
         Vector3 localPosition = getTransformableNode().getPosition();
-        Log.d("DADAYB", "updatePosition: " + localPosition.toString() + ", " + desiredLocalPosition.toString());
+//        Log.d("DADAYB", "updatePosition: " + localPosition.toString() + ", " + ((ArNode) getTransformableNode()).getWorldPosition().toString() + ", " + desiredLocalPosition.toString());
         float lerpFactor = MathHelper.clamp(frameTime.getDeltaSeconds() * LERP_SPEED, 0, 1);
         localPosition = Vector3.lerp(localPosition, desiredLocalPosition, lerpFactor);
 

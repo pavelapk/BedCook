@@ -328,6 +328,14 @@ open class ArNode(
         }
     }
 
+    fun forceWorldPositionToTarget() {
+        worldPosition = targetWorldPosition
+    }
+
+    fun forceWorldRotationToTarget() {
+        worldRotationQuaternion = targetWorldRotationQuaternion
+    }
+
     private val smouthLerpFactor: Float
         get() = MathHelper.clamp(
             (1.0f / (sceneView?.maxFramesPerSeconds
