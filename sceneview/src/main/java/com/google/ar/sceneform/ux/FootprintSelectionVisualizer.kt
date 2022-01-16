@@ -16,7 +16,6 @@
 package com.google.ar.sceneform.ux
 
 import android.util.Log
-import com.google.ar.sceneform.collision.Box
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import io.github.sceneview.node.ModelNode
@@ -42,10 +41,10 @@ class FootprintSelectionVisualizer : SelectionVisualizer {
 
     override fun applySelectionVisual(node: BaseTransformableNode) {
         footprintNode.parent = node
-        val box = (node as? ModelNode)?.renderable?.collisionShape as? Box
-        val sizes = box?.size
-        if (sizes != null) {
-            val size = arrayOf(sizes.x, sizes.y, sizes.y).average().toFloat() * 8f
+        val box = (node as? ModelNode)?.renderableInstance?.filamentAsset?.boundingBox
+        val halfExtent = box?.halfExtent
+        if (halfExtent != null) {
+            val size = halfExtent.average().toFloat() * 16f // 2 * sqrt(2)/2 * 10
             Log.d("DADAYA", "applySelectionVisual: $size")
             footprintNode.scale = size
         }

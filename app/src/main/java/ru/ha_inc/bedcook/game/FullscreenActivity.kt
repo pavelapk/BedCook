@@ -25,15 +25,31 @@ class FullscreenActivity : AppCompatActivity() {
     private var modelNode: ArNode? = null
 
     private val objects = listOf(
-        SelectableObject("Торт", R.drawable.sceneview_logo),
-        SelectableObject("Торт1", R.drawable.sceneview_logo),
-        SelectableObject("Торт2", R.drawable.sceneview_logo),
-        SelectableObject("Торт3", R.drawable.sceneview_logo),
+        SelectableObject("Торт", R.drawable.sceneview_logo, "cake.glb"),
+        SelectableObject("Торт1", R.drawable.sceneview_logo, "cube.glb"),
+        SelectableObject("Торт2", R.drawable.sceneview_logo, "cake.glb"),
+        SelectableObject("Торт3", R.drawable.sceneview_logo, "cake.glb"),
     )
 
     private val adapter =
         SelectableObjectAdapter(objects) {
             Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+            binding.sceneView.setOnTapArPlaneGlbModel(it.modelPath,
+                onLoaded = {
+                    Log.d("DADAYA", "onLoaded: $it")
+                },
+                onAdded = { arNode, renderableInstance ->
+                    Log.d(
+                        "DADAYA",
+                        "onAdded: ${arNode.pose} $renderableInstance}"
+                    )
+                    resetSceneViewOnTouch()
+                },
+                onError = {
+                    it.printStackTrace()
+                    resetSceneViewOnTouch()
+                }
+            )
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,20 +82,7 @@ class FullscreenActivity : AppCompatActivity() {
 //            anchorOrMove(hitResult.createAnchor())
 //        }
 //        lifecycleScope.launchWhenCreated {
-        binding.sceneView.setOnTapArPlaneGlbModel("cake.glb",
-            onLoaded = {
-                Log.d("DADAYA", "onLoaded: $it")
-            },
-            onAdded = { arNode, renderableInstance ->
-                Log.d(
-                    "DADAYA",
-                    "onAdded: ${arNode.pose} $renderableInstance}"
-                )
-            },
-            onError = {
-                it.printStackTrace()
-            }
-        )
+
 //        }
 //        binding.sceneView.nodeGestureRecognizer
         binding.dummyButton.setOnClickListener {
@@ -99,6 +102,12 @@ class FullscreenActivity : AppCompatActivity() {
 
         binding.recyclerSelectObject.adapter = adapter
         modelNode?.onTouchEvent
+    }
+
+    private fun resetSceneViewOnTouch() {
+        binding.sceneView.onTouchAr = { _, _ ->
+            binding.sceneView.nodeGestureRecognizer.selectNode(null)
+        }
     }
 
     private fun anchorOrMove(anchor: Anchor) {
