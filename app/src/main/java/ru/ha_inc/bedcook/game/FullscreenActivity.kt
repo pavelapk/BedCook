@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.ar.core.Anchor
@@ -12,6 +11,7 @@ import com.google.ar.core.Config
 import io.github.sceneview.ar.arcore.depthEnabled
 import io.github.sceneview.ar.arcore.instantPlacementEnabled
 import io.github.sceneview.ar.node.ArNode
+import io.github.sceneview.utils.setFullScreen
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
 
@@ -37,9 +37,13 @@ class FullscreenActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        //TODO base activity with fullscreen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fullscreen)
+        setFullScreen(
+            fullScreen = true, hideSystemBars = false,
+            fitsSystemWindows = false, rootView = binding.root
+        )
 
         binding.sceneView.configureSession {
             it.depthEnabled = false
@@ -51,29 +55,50 @@ class FullscreenActivity : AppCompatActivity() {
             it.focusMode =
                 Config.FocusMode.AUTO // don't work when updateMode == LATEST_CAMERA_IMAGE
         }
-//        binding.sceneView.planeRenderer.planeRendererMode =
-//            PlaneRenderer.PlaneRendererMode.RENDER_TOP_MOST
 
         binding.sceneView.onARCoreException = {
             it.printStackTrace()
         }
 
-        binding.sceneView.onTouchAr = { hitResult, _ ->
-            Log.d("DADAYA", hitResult.distance.toString())
-            Log.d("DADAYA", hitResult.hitPose.toString())
-            anchorOrMove(hitResult.createAnchor())
-        }
-
-        binding.dummyButton.setOnClickListener {
-            modelNode?.apply {
-                binding.sceneView.removeChild(this)
-                destroy()
+//        binding.sceneView.onTouchAr = { hitResult, _ ->
+//            Log.d("DADAYA", hitResult.distance.toString())
+//            Log.d("DADAYA", hitResult.hitPose.toString())
+//            anchorOrMove(hitResult.createAnchor())
+//        }
+//        lifecycleScope.launchWhenCreated {
+        binding.sceneView.setOnTapArPlaneGlbModel("cake.glb",
+            onLoaded = {
+                Log.d("DADAYA", "onLoaded: $it")
+            },
+            onAdded = { arNode, renderableInstance ->
+                Log.d(
+                    "DADAYA",
+                    "onAdded: ${arNode.pose} $renderableInstance}"
+                )
+            },
+            onError = {
+                it.printStackTrace()
             }
-            binding.sceneView.planeRenderer.isEnabled = true
-            modelNode = null
+        )
+//        }
+//        binding.sceneView.nodeGestureRecognizer
+        binding.dummyButton.setOnClickListener {
+//            modelNode?.apply {
+//                binding.sceneView.removeChild(this)
+//                destroy()
+//            }
+//            binding.sceneView.planeRenderer.isEnabled = true
+//            modelNode = null
+
+            Log.d(
+                "DADAYA",
+                "dummyButton: ${binding.sceneView.nodeGestureRecognizer.selectedNode?.position}"
+            )
+
         }
 
         binding.recyclerSelectObject.adapter = adapter
+        modelNode?.onTouchEvent
     }
 
     private fun anchorOrMove(anchor: Anchor) {

@@ -6,6 +6,7 @@ import android.content.ContextWrapper
 import android.graphics.PixelFormat
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import androidx.activity.ComponentActivity
 import androidx.core.content.res.use
@@ -24,6 +25,7 @@ import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderer
 import com.google.ar.sceneform.ux.FootprintSelectionVisualizer
 import com.google.ar.sceneform.ux.TransformationSystem
+import com.gorisse.thomas.lifecycle.lifecycleOwner
 import com.gorisse.thomas.lifecycle.lifecycleScope
 import io.github.sceneview.collision.pickHitTest
 import io.github.sceneview.environment.Environment
@@ -39,7 +41,9 @@ import io.github.sceneview.utils.DefaultLifecycle
 import java.util.concurrent.TimeUnit
 
 const val defaultMaxFPS = 60
-const val defaultNodeSelector = "sceneview/models/node_selector.glb"
+
+//const val defaultNodeSelector = "sceneview/models/node_selector.glb"
+const val defaultNodeSelector = "cube.glb"
 const val defaultIbl = "sceneview/environments/default_ibl.ktx"
 const val defaultSkybox = "sceneview/environments/default_skybox.ktx"
 
@@ -184,7 +188,8 @@ open class SceneView @JvmOverloads constructor(
         // TODO : Remove it here when moved Filament to lifecycle aware
         EngineInstance.getEngine()
 
-        lifecycleScope.launchWhenCreated {
+        lifecycle.owner.lifecycleScope.launchWhenCreated {
+            Log.d("DADAYA", "SceneView: launchWhenCreated")
             mainLight = LightManager.Builder(LightManager.Type.SUN)
                 .intensity(defaultMainLightIntensity)
                 .castShadows(true).build()

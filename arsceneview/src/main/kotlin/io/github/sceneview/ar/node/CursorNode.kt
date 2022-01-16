@@ -2,6 +2,7 @@ package io.github.sceneview.ar.node
 
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.google.ar.core.Anchor
 import com.google.ar.core.HitResult
 import com.google.ar.sceneform.rendering.Renderable
@@ -59,7 +60,7 @@ open class CursorNode(context: Context, coroutineScope: LifecycleCoroutineScope?
     }
 
     override fun createAnchor(): Anchor? {
-        lifecycleScope?.launchWhenCreated {
+        lifecycle?.owner?.lifecycleScope?.launchWhenCreated {
             renderableInstance?.material?.filamentMaterialInstance?.setEmissiveColor(r = 0.0f, g = 0.0f, b = 0.0f)
             withContext(Dispatchers.IO) {
                 delay(clickDuration)

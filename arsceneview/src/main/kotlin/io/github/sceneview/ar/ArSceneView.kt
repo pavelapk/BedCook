@@ -3,6 +3,7 @@ package io.github.sceneview.ar
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import androidx.lifecycle.*
 import com.google.ar.core.*
@@ -11,8 +12,11 @@ import com.google.ar.core.exceptions.DeadlineExceededException
 import com.google.ar.core.exceptions.NotYetAvailableException
 import com.google.ar.sceneform.ArCamera
 import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.PickHitResult
 import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.TransformableNode
+import com.gorisse.thomas.lifecycle.doOnCreate
+import com.gorisse.thomas.lifecycle.lifecycleOwner
 import com.gorisse.thomas.lifecycle.lifecycleScope
 import com.gorisse.thomas.sceneview.Instructions
 import io.github.sceneview.SceneLifecycle
@@ -21,6 +25,7 @@ import io.github.sceneview.SceneLifecycleOwner
 import io.github.sceneview.SceneView
 import io.github.sceneview.ar.arcore.*
 import io.github.sceneview.ar.node.ArNode
+import io.github.sceneview.ar.node.TransformableArNode
 import io.github.sceneview.ar.scene.PlaneRenderer
 import io.github.sceneview.light.defaultMainLightIntensity
 import io.github.sceneview.light.destroy
@@ -30,6 +35,7 @@ import io.github.sceneview.model.await
 import io.github.sceneview.node.Node
 import io.github.sceneview.scene.exposureFactor
 import io.github.sceneview.utils.setKeepScreenOn
+import kotlinx.coroutines.launch
 
 /**
  * A SurfaceView that integrates with ARCore and renders a scene.
@@ -225,7 +231,7 @@ open class ArSceneView @JvmOverloads constructor(
             arFrame.updatedAugmentedFaces.forEach(onAugmentedFaceUpdate)
         }
 
-        onArFrame.forEach{ it(arFrame) }
+        onArFrame.forEach { it(arFrame) }
         lifecycle.dispatchEvent<ArSceneLifecycleObserver> {
             onArFrame(arFrame)
         }
@@ -366,7 +372,7 @@ open class ArSceneView @JvmOverloads constructor(
         onAdded: ((node: ArNode, renderableInstance: RenderableInstance) -> Unit)? = null,
         onError: ((exception: Throwable) -> Unit)? = null,
     ) {
-        lifecycleScope.launchWhenCreated {
+        lifecycle.owner.lifecycleScope.launchWhenCreated {
             try {
                 val model = ModelRenderable.builder()
                     .setSource(context, Uri.parse(glbFileLocation))
@@ -374,13 +380,19 @@ open class ArSceneView @JvmOverloads constructor(
                     .await()
                 onLoaded?.invoke(model!!)
                 onTouchAr = { hitResult, _ ->
-                    addChild(ArNode(hitResult).apply {
+                    addChild(TransformableArNode(nodeGestureRecognizer, hitResult).apply {
                         // Create the transformable model and add it to the anchor
-                        val modelNode = TransformableNode(nodeGestureRecognizer)
+//                        val modelNode = TransformableNode(nodeGestureRecognizer)
                         val renderableInstance = setRenderable(model)!!.apply {
                             animate(true).start()
                         }
-                        addChild(modelNode)
+//                        addChild(modelNode)
+//                        this.onTouched = { pickHitResult, motionEvent ->
+//                            modelNode.onTouched?.invoke(pickHitResult, motionEvent)
+//                        }
+//                        this.onFrameUpdated.add { frameTime, _ ->
+//                            modelNode.onFrameUpdated(frameTime)
+//                        }
                         onAdded?.invoke(this, renderableInstance)
                     })
                 }

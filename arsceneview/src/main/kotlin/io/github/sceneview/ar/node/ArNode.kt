@@ -12,6 +12,7 @@ import com.google.ar.sceneform.math.Matrix
 import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.RenderableInstance
+import com.google.ar.sceneform.ux.TransformationSystem
 import io.github.sceneview.ar.ArSceneLifecycleObserver
 import io.github.sceneview.ar.ArSceneView
 import io.github.sceneview.ar.arcore.ArFrame
@@ -26,12 +27,14 @@ open class ArNode(
     position: Vector3 = defaultPosition,
     rotationQuaternion: Quaternion = defaultRotation,
     scales: Vector3 = defaultScales,
-    parent: NodeParent? = null
+    parent: NodeParent? = null,
+    transformationSystem: TransformationSystem? = null
 ) : ModelNode(
     position = position,
     rotationQuaternion = rotationQuaternion,
     scales = scales,
-    parent = parent
+    parent = parent,
+    transformationSystem = transformationSystem
 ), ArSceneLifecycleObserver {
 
     companion object {

@@ -15,6 +15,8 @@
  */
 package com.google.ar.sceneform.ux;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.google.ar.core.Anchor;
@@ -38,6 +40,7 @@ import io.github.sceneview.ar.node.ArNode;
 import io.github.sceneview.node.Node;
 import io.github.sceneview.node.NodeParent;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -121,6 +124,7 @@ public class TranslationController extends BaseTransformationController<DragGest
 
         Vector3 nodeBack = Quaternion.rotateVector(nodeRotation, Vector3.back());
 
+        Log.d("DADAYA", "startTransformation: " + nodePosition.toString());
 
         Vector3 initialForwardInWorld = Quaternion.rotateVector(nodeRotation, Vector3.forward());
         Node parent = transformableNode.getParentNode();
@@ -166,6 +170,7 @@ public class TranslationController extends BaseTransformationController<DragGest
                 if (plane.isPoseInPolygon(pose) && allowedPlaneTypes.contains(plane.getType())) {
                     desiredLocalPosition = new Vector3(pose.tx(), pose.ty(), pose.tz());
                     desiredLocalRotation = new Quaternion(pose.qx(), pose.qy(), pose.qz(), pose.qw());
+                    Log.d("DADAYA", "continueBefore: " + desiredLocalPosition);
                     Node parent = getTransformableNode().getParentNode();
                     if (parent != null && desiredLocalPosition != null && desiredLocalRotation != null) {
                         Matrix parentNodeTransformMatrix = parent.getTransformationMatrix();
@@ -179,6 +184,7 @@ public class TranslationController extends BaseTransformationController<DragGest
                                 Quaternion.multiply(parentNodeRotation.inverted(),
                                         Preconditions.checkNotNull(desiredLocalRotation));
                     }
+                    Log.d("DADAYA", "continueAfter: " + desiredLocalPosition);
 
                     desiredLocalRotation =
                             calculateFinalDesiredLocalRotation(Preconditions.checkNotNull(desiredLocalRotation));
@@ -207,7 +213,10 @@ public class TranslationController extends BaseTransformationController<DragGest
             Anchor newAnchor = hitResult.createAnchor();
             anchorNode.setAnchor(newAnchor);
 
+            Log.d("DADAYA", "endTransformation: " + Arrays.toString(newAnchor.getPose().getTranslation()));
+
 // TODO: View if it is usefull
+
 //      Vector3 worldPosition = getTransformableNode().getWorldPosition();
 //      Quaternion worldRotation = getTransformableNode().getWorldRotation();
 //      Quaternion finalDesiredWorldRotation = worldRotation;
@@ -237,12 +246,15 @@ public class TranslationController extends BaseTransformationController<DragGest
     }
 
     private ArNode getAnchorNodeOrDie() {
-        NodeParent parent = getTransformableNode().getParent();
-        if (!(parent instanceof ArNode)) {
-            throw new IllegalStateException("TransformableNode must have an AnchorNode as a parent.");
+        BaseTransformableNode node = getTransformableNode();
+        NodeParent parent = node.getParent();
+        if (parent instanceof ArNode) {
+            return (ArNode) parent;
+        } else if (node instanceof ArNode) {
+            return (ArNode) node;
         }
+        throw new IllegalStateException("TransformableNode must have an AnchorNode as a parent.");
 
-        return (ArNode) parent;
     }
 
     private void updatePosition(FrameTime frameTime) {
@@ -253,6 +265,7 @@ public class TranslationController extends BaseTransformationController<DragGest
         }
 
         Vector3 localPosition = getTransformableNode().getPosition();
+        Log.d("DADAYB", "updatePosition: " + localPosition.toString() + ", " + desiredLocalPosition.toString());
         float lerpFactor = MathHelper.clamp(frameTime.getDeltaSeconds() * LERP_SPEED, 0, 1);
         localPosition = Vector3.lerp(localPosition, desiredLocalPosition, lerpFactor);
 

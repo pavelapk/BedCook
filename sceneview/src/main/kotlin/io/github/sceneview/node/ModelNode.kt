@@ -8,6 +8,8 @@ import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.utilities.ChangeId
+import com.google.ar.sceneform.ux.BaseTransformableNode
+import com.google.ar.sceneform.ux.TransformationSystem
 import io.github.sceneview.model.GlbLoader
 
 /**
@@ -22,8 +24,9 @@ open class ModelNode(
     position: Vector3 = defaultPosition,
     rotationQuaternion: Quaternion = defaultRotation,
     scales: Vector3 = defaultScales,
-    parent: NodeParent? = null
-) : Node(position, rotationQuaternion, scales, parent) {
+    parent: NodeParent? = null,
+    transformationSystem: TransformationSystem? = null
+) : BaseTransformableNode(position, rotationQuaternion, scales, parent, transformationSystem) {
 
     // Rendering fields.
     private var renderableId: Int = ChangeId.EMPTY_ID
@@ -50,6 +53,11 @@ open class ModelNode(
 
     val renderable: Renderable?
         get() = renderableInstance?.renderable
+
+
+    fun setRenderedVar(v: Boolean) {  //just because java compiler doesn't want to work
+        isRendered = v
+    }
 
     override var isRendered: Boolean
         get() = super.isRendered

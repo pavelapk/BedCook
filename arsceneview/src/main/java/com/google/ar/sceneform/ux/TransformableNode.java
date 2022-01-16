@@ -26,7 +26,7 @@ public class TransformableNode extends BaseTransformableNode {
 
   @SuppressWarnings("initialization") // Suppress @UnderInitialization warning.
   public TransformableNode(TransformationSystem transformationSystem) {
-    super(transformationSystem);
+//    super(transformationSystem);
 
     translationController =
         new TranslationController(this, transformationSystem.getDragRecognizer());
