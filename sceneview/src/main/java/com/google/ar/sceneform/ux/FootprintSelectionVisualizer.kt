@@ -13,44 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.ar.sceneform.ux;
+package com.google.ar.sceneform.ux
 
-import androidx.annotation.Nullable;
-
-import com.google.ar.sceneform.rendering.ModelRenderable;
-import io.github.sceneview.node.ModelNode;
+import android.util.Log
+import com.google.ar.sceneform.collision.Box
+import com.google.ar.sceneform.math.Vector3
+import com.google.ar.sceneform.rendering.ModelRenderable
+import io.github.sceneview.node.ModelNode
 
 /**
- * Visualizes that a {@link BaseTransformableNode} is selected by rendering a footprint for the
+ * Visualizes that a [BaseTransformableNode] is selected by rendering a footprint for the
  * selected node.
  */
-public class FootprintSelectionVisualizer implements SelectionVisualizer {
-  private ModelNode footprintNode;
-  @Nullable private ModelRenderable footprintRenderable;
+class FootprintSelectionVisualizer : SelectionVisualizer {
+    private val footprintNode = ModelNode(position = Vector3.zero())
 
-  public FootprintSelectionVisualizer() {
-    footprintNode = new ModelNode();
-  }
+    var footprintRenderable: ModelRenderable? = null
+        set(value) {
+            if (value == null) {
+                field = null
+                return
+            }
+            val copyRenderable = value.makeCopy()
+            footprintNode.setRenderable(copyRenderable)
+            copyRenderable.collisionShape = null
+            field = copyRenderable
+        }
 
-  public void setFootprintRenderable(ModelRenderable renderable) {
-    ModelRenderable copyRenderable = renderable.makeCopy();
-    footprintNode.setRenderable(copyRenderable);
-    copyRenderable.setCollisionShape(null);
-    footprintRenderable = copyRenderable;
-  }
+    override fun applySelectionVisual(node: BaseTransformableNode) {
+        footprintNode.parent = node
+        val box = (node as? ModelNode)?.renderable?.collisionShape as? Box
+        val sizes = box?.size
+        if (sizes != null) {
+            val size = arrayOf(sizes.x, sizes.y, sizes.y).average().toFloat() * 8f
+            Log.d("DADAYA", "applySelectionVisual: $size")
+            footprintNode.scale = size
+        }
 
-  @Nullable
-  public ModelRenderable getFootprintRenderable() {
-    return footprintRenderable;
-  }
+    }
 
-  @Override
-  public void applySelectionVisual(BaseTransformableNode node) {
-    footprintNode.setParent(node);
-  }
+    override fun removeSelectionVisual(node: BaseTransformableNode) {
+        footprintNode.parent = null
+    }
 
-  @Override
-  public void removeSelectionVisual(BaseTransformableNode node) {
-    footprintNode.setParent(null);
-  }
 }

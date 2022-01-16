@@ -39,8 +39,9 @@ import java.util.concurrent.TimeUnit
 
 const val defaultMaxFPS = 60
 
-//const val defaultNodeSelector = "sceneview/models/node_selector.glb"
-const val defaultNodeSelector = "cube.glb"
+const val defaultNodeSelector = "sceneview/models/node_selector.glb"
+
+//const val defaultNodeSelector = "cube.glb"
 const val defaultIbl = "sceneview/environments/default_ibl.ktx"
 const val defaultSkybox = "sceneview/environments/default_skybox.ktx"
 
@@ -106,7 +107,7 @@ open class SceneView @JvmOverloads constructor(
     /**
      * ### The transformation system
      *
-     * Used by [TransformableNode] for detecting gestures and coordinating which node is selected.
+     * Used by [TransformableArNode] for detecting gestures and coordinating which node is selected.
      * Can be overridden to create a custom transformation system.
      */
     val nodeGestureRecognizer by lazy {
@@ -254,7 +255,7 @@ open class SceneView @JvmOverloads constructor(
         super.onDestroy(owner)
 
         renderer.destroyAllResources()
-        camera.destroy();
+        camera.destroy()
         environment?.destroy()
         environment = null
         mainLight?.destroy()
