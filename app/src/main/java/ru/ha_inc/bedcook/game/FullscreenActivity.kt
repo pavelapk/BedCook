@@ -53,7 +53,7 @@ class FullscreenActivity : AppCompatActivity() {
             it.planeFindingMode = Config.PlaneFindingMode.HORIZONTAL
             it.updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
             it.focusMode =
-                Config.FocusMode.AUTO // don't work when updateMode == LATEST_CAMERA_IMAGE
+                Config.FocusMode.AUTO // bad work when updateMode == LATEST_CAMERA_IMAGE
         }
 
         binding.sceneView.onARCoreException = {

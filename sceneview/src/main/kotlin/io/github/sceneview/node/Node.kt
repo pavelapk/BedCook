@@ -1,6 +1,5 @@
 package io.github.sceneview.node
 
-import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewConfiguration
 import androidx.lifecycle.LifecycleOwner
@@ -451,7 +450,6 @@ open class Node(
      * Override to perform any updates that need to occur each frame.
      */
     open fun onFrameUpdated(frameTime: FrameTime) {
-//        Log.d("DADAYA", "onFrame: ${this::class}")
         onFrameUpdated.forEach { it(frameTime, this) }
     }
 

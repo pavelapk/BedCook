@@ -15,8 +15,6 @@
  */
 package com.google.ar.sceneform.ux;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
 import com.google.ar.core.Anchor;
@@ -31,7 +29,9 @@ import com.google.ar.sceneform.math.MathHelper;
 import com.google.ar.sceneform.math.Matrix;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
-import com.google.ar.sceneform.utilities.Preconditions;
+
+import java.util.EnumSet;
+import java.util.List;
 
 import io.github.sceneview.SceneView;
 import io.github.sceneview.ar.ArSceneView;
@@ -39,10 +39,6 @@ import io.github.sceneview.ar.arcore.ArFrame;
 import io.github.sceneview.ar.node.ArNode;
 import io.github.sceneview.node.Node;
 import io.github.sceneview.node.NodeParent;
-
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
 
 /**
  * Manipulates the position of a {@link BaseTransformableNode} using a {@link

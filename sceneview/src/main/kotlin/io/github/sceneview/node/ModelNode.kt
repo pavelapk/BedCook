@@ -54,11 +54,6 @@ open class ModelNode(
     val renderable: Renderable?
         get() = renderableInstance?.renderable
 
-
-    fun setRenderedVar(v: Boolean) {  //just because java compiler doesn't want to work
-        isRendered = v
-    }
-
     override var isRendered: Boolean
         get() = super.isRendered
         set(value) {

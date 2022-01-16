@@ -153,6 +153,7 @@ public class Camera extends Node implements CameraProvider {
      */
     @Override
     public Matrix getViewMatrix() {
+        Matrix.invert(getTransformationMatrix(), viewMatrix);
         return viewMatrix;
     }
 
@@ -209,7 +210,7 @@ public class Camera extends Node implements CameraProvider {
      */
     public Vector3 worldToScreenPoint(Vector3 point) {
         Matrix m = new Matrix();
-        Matrix.multiply(projectionMatrix, viewMatrix, m);
+        Matrix.multiply(projectionMatrix, getViewMatrix(), m);
 
         int viewWidth = getViewWidth();
         int viewHeight = getViewHeight();
@@ -244,32 +245,6 @@ public class Camera extends Node implements CameraProvider {
     }
 
     /**
-     * Set the position of the camera. The camera is always top level, therefore this behaves
-     * the same as {@link #setPosition(Vector3)}.
-     *
-     * <p>If the camera is part of an {@link SceneView}, then this is an unsupported operation.
-     * Camera's position cannot be changed, it is controlled by the ARCore camera pose.
-     */
-    @Override
-    public void setPosition(Vector3 position) {
-        super.setPosition(position);
-        Matrix.invert(getTransformationMatrix(), viewMatrix);
-    }
-
-    /**
-     * Set the rotation of the camera. The camera is always top level, therefore this behaves
-     * the same as {@link #setRotationQuaternion(Quaternion)}.
-     *
-     * <p>If the camera is part of an {@link SceneView}, then this is an unsupported operation.
-     * Camera's rotation cannot be changed, it is controlled by the ARCore camera pose.
-     */
-    @Override
-    public void setRotationQuaternion(Quaternion rotation) {
-        super.setRotationQuaternion(rotation);
-        Matrix.invert(getTransformationMatrix(), viewMatrix);
-    }
-
-    /**
      * @hide Used to explicitly set the projection matrix for testing.
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -281,7 +256,7 @@ public class Camera extends Node implements CameraProvider {
         Preconditions.checkNotNull(dest, "Parameter \"dest\" was null.");
 
         Matrix m = new Matrix();
-        Matrix.multiply(projectionMatrix, viewMatrix, m);
+        Matrix.multiply(projectionMatrix, getViewMatrix(), m);
         Matrix.invert(m, m);
 
         int viewWidth = getViewWidth();
