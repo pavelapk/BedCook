@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_background"
+    tools:context=".finish.FinishActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <ImageView
+        android:id="@+id/ivTable"
+        android:layout_width="0dp"
+        android:layout_height="166dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/glCenter"
+        app:srcCompat="@drawable/img_table_finish" />
+
+    <ImageView
+        android:id="@+id/ivCook"
+        android:layout_width="366dp"
+        android:layout_height="310dp"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/img_cook_finish" />
+
+    <ImageButton
+        android:id="@+id/btnGoBack"
+        style="@style/btn"
+        android:layout_width="226dp"
+        android:layout_height="102dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/img_go_back" />
+
+    <ImageView
+        android:id="@+id/ivCake"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/glCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/img_cake" />
+
+    <ImageView
+        android:id="@+id/ivStar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="223dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivCake"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/img_star1" />
+
+    <ImageView
+        android:id="@+id/ivStar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivStar1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivStar1"
+        app:srcCompat="@drawable/img_star2" />
+
+    <ImageView
+        android:id="@+id/ivStar3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="45dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivStar1"
+        app:layout_constraintTop_toTopOf="@+id/ivStar1"
+        app:srcCompat="@drawable/img_star3" />
+
+    <TextView
+        android:id="@+id/tvResultWord"
+        style="@style/textView.48sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Perfect!"
+        app:layout_constraintBottom_toBottomOf="@+id/ivCake"
+        app:layout_constraintEnd_toEndOf="@+id/ivCake"
+        app:layout_constraintStart_toStartOf="@+id/ivCake"
+        app:layout_constraintTop_toBottomOf="@+id/ivStar3" />
+
+    <TextView
+        android:id="@+id/line"
+        style="@style/line"
+        android:layout_width="0dp"
+        android:layout_height="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/glCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/glCenter" />
+
+    <TextView
+        android:id="@+id/tvResult1"
+        style="@style/result"
+        android:layout_width="117dp"
+        android:layout_height="83dp"
+        android:layout_marginBottom="16dp"
+        android:text="88%"
+        app:layout_constraintBottom_toTopOf="@+id/glCenter"
+        app:layout_constraintEnd_toStartOf="@+id/tvResult2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCake" />
+
+    <TextView
+        android:id="@+id/tvResult2"
+        style="@style/result"
+        android:layout_width="117dp"
+        android:layout_height="83dp"
+        android:text="66%"
+        app:layout_constraintBottom_toBottomOf="@+id/tvResult1"
+        app:layout_constraintEnd_toStartOf="@+id/tvResult3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvResult1"
+        app:layout_constraintTop_toTopOf="@+id/tvResult1" />
+
+    <TextView
+        android:id="@+id/tvResult3"
+        style="@style/result"
+        android:layout_width="117dp"
+        android:layout_height="83dp"
+        android:text="3%"
+        app:layout_constraintBottom_toBottomOf="@+id/tvResult2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvResult2"
+        app:layout_constraintTop_toTopOf="@+id/tvResult2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
