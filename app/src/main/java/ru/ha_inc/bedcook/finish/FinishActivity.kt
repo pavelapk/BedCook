@@ -35,14 +35,17 @@ class FinishActivity : AppCompatActivity() {
             stars.forEach {
                 it.visibility = View.INVISIBLE
             }
-            for(i in 0 until countStars){
+            for (i in 0 until countStars) {
                 stars[i].visibility = View.VISIBLE
             }
         }
 
 
         binding.btnGoBack.setOnClickListener {
-            viewModelProfile.getReward(viewModelFinish.salaryResult.value?:0, viewModelFinish.pointBonusResult.value?:0)
+            viewModelProfile.getReward(
+                viewModelFinish.salaryResult.value ?: 0,
+                viewModelFinish.pointBonusResult.value ?: 0
+            )
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 

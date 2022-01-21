@@ -1,33 +1,35 @@
 package ru.ha_inc.bedcook.start
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
+import io.github.sceneview.utils.setFullScreen
 import ru.ha_inc.bedcook.R
-import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
 import ru.ha_inc.bedcook.databinding.ActivityStartBinding
-import ru.ha_inc.bedcook.game.FullscreenActivity
 import ru.ha_inc.bedcook.profile.ProfileActivity
 import ru.ha_inc.bedcook.utils.MusicService
 
-class StartActivity : AppCompatActivity() {
+class StartActivity : AppCompatActivity(R.layout.activity_start) {
 
     private val binding by viewBinding(ActivityStartBinding::bind)
     private val viewModel by viewModels<StartViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setFullScreen(
+            fullScreen = true, hideSystemBars = true,
+            fitsSystemWindows = false, rootView = binding.root
+        )
 
-        startService(Intent(this, MusicService::class.java))
+//        startService(Intent(this, MusicService::class.java))
 
         viewModel.gameSound.observe(this) {
-            if(it){
+            binding.btnSound.isChecked = it
+            if (it) {
                 startService(Intent(this, MusicService::class.java))
-            }
-            else{
+            } else {
                 stopService(Intent(this, MusicService::class.java))
             }
         }
@@ -35,11 +37,10 @@ class StartActivity : AppCompatActivity() {
 
         binding.btnSound.setOnClickListener {
             viewModel.toggleSound(binding.btnSound.isChecked)
-
         }
 
         binding.btnRules.setOnClickListener {
-           // startActivity(Intent(this, FullscreenActivity::class.java))
+            // startActivity(Intent(this, FullscreenActivity::class.java))
             viewModel.runVideoRules()
         }
 

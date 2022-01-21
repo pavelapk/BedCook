@@ -28,6 +28,7 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.view.View
 import io.github.sceneview.SceneView
+import ru.ha_inc.bedcook.utils.Math.average
 import java.io.IOException
 
 
@@ -230,16 +231,4 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
-}
-
-private fun Collection<Vector3>.average(): Vector3 {
-    var x = 0f
-    var y = 0f
-    var z = 0f
-    forEach {
-        x += it.x
-        y += it.y
-        z += it.z
-    }
-    return Vector3(x / size, y / size, z / size)
 }

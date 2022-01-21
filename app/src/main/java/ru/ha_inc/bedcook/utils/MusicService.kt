@@ -14,18 +14,18 @@ class MusicService : Service() {
     }
 
     override fun onCreate() {
-        Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "My Service Created", Toast.LENGTH_SHORT).show()
         player = MediaPlayer.create(this, R.raw.bedcook_background)
         player?.isLooping = true // зацикливаем
     }
 
     override fun onDestroy() {
-        Toast.makeText(this, "My Service Stopped", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "My Service Stopped", Toast.LENGTH_SHORT).show()
         player?.stop()
     }
 
     override fun onStart(intent: Intent, startid: Int) {
-        Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "My Service Started", Toast.LENGTH_SHORT).show()
         player?.start()
     }
 

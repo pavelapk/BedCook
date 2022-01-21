@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "506796113345",
+    "project_id": "bedcook",
+    "storage_bucket": "bedcook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506796113345:android:91c193facba5ebc6650340",
+        "android_client_info": {
+          "package_name": "ru.ha_inc.bedcook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506796113345-dlsum6qilg3o2kijl00fo6cp9b5ee2qe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPI4gZhj1wpJgNnbHl9cjWdMGFdIWsswY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506796113345-dlsum6qilg3o2kijl00fo6cp9b5ee2qe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

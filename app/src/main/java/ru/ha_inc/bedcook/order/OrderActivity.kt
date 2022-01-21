@@ -1,17 +1,14 @@
 package ru.ha_inc.bedcook.order
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityOrderBinding
-import ru.ha_inc.bedcook.databinding.ActivityStartBinding
 import ru.ha_inc.bedcook.finish.FinishActivity
 import ru.ha_inc.bedcook.map.MapActivity
-import ru.ha_inc.bedcook.start.StartActivity
-import ru.ha_inc.bedcook.start.StartViewModel
 
 class OrderActivity : AppCompatActivity() {
 
@@ -24,13 +21,16 @@ class OrderActivity : AppCompatActivity() {
 
         viewModel.complexity.observe(this) {
             binding.ivTask.background.level = it
-            binding.tvComplexity.setTextColor(getColor(
-                when(it){
-                    0 -> R.color.easy_task
-                    1 -> R.color.normal_task
-                    2 -> R.color.hard_task
-                    else -> R.color.easy_task
-            }))
+            binding.tvComplexity.setTextColor(
+                getColor(
+                    when (it) {
+                        0 -> R.color.easy_task
+                        1 -> R.color.normal_task
+                        2 -> R.color.hard_task
+                        else -> R.color.easy_task
+                    }
+                )
+            )
             binding.tvMoney.text = "+ ${viewModel.salary.value}"
             binding.tvPoint.text = "+ ${viewModel.pointBonus.value}"
         }

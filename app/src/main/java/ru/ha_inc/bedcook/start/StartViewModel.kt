@@ -1,14 +1,16 @@
 package ru.ha_inc.bedcook.start
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.ha_inc.bedcook.R
+import ru.ha_inc.bedcook.models.ProfileRepository
 
-class StartViewModel : ViewModel() {
+class StartViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> get() = _username
@@ -16,33 +18,39 @@ class StartViewModel : ViewModel() {
     private val _gameSound = MutableLiveData<Boolean>()
     val gameSound: LiveData<Boolean> get() = _gameSound
 
+    private val profileRepository = ProfileRepository(app)
+
     init {
         viewModelScope.launch {
-            _username.value = "Мелкая"
+            _gameSound.value = profileRepository.musicEnabled
+            profileRepository.getProfile().collectLatest { profile ->
+                profile.username?.let { _username.value = it }
+            }
         }
     }
 
     fun toggleSound(isPlay: Boolean) {
-        Log.d("DADAYA", "toggleSound: $isPlay")
         _gameSound.value = isPlay
-        if(_gameSound.value == true){
-            //вкл звук
-        }
-        else{
-            //выкл звук
-        }
+        profileRepository.musicEnabled = isPlay
     }
 
-    fun runVideoRules(){
+    fun runVideoRules() {
         //вкл видео
     }
 
     fun onPlayClick(username: String, onSuccess: () -> Unit, onFailure: (Int) -> Unit) {
-        if (username.isNotBlank()) {
-            _username.value = username
-            onSuccess.invoke()
-        } else {
-            onFailure.invoke(R.string.username_blank_error)
+        viewModelScope.launch {
+            if (username.isNotBlank()) {
+                _username.value = username
+                if (profileRepository.isProfileStored()) {
+                    profileRepository.updateUsername(username)
+                } else {
+                    profileRepository.createUser(username)
+                }
+                onSuccess.invoke()
+            } else {
+                onFailure.invoke(R.string.username_blank_error)
+            }
         }
     }
 }

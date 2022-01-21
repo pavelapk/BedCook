@@ -119,7 +119,7 @@
         app:layout_constraintTop_toTopOf="@+id/ivMoney" />
 
     <TextView
-        android:id="@+id/tvPointLevel"
+        android:id="@+id/tvScore"
         style="@style/textView.14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pbLevel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPointLevel"
+        app:layout_constraintTop_toBottomOf="@+id/tvScore"
         app:srcCompat="@drawable/ic_level" />
 
     <TextView
