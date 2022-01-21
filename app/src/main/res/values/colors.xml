@@ -12,4 +12,20 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="gray">#EEEEEE</color>
+    <color name="blue_main">#2A75C9</color>
+    <color name="yellow_main">#E8D94D</color>
+    <color name="color_username">#868155</color>
+    <color name="progress_bar_background">#E9974B</color>
+    <color name="progress_bar_tint">#E8D94D</color>
+    <color name="progress_bar_brown">#A25324</color>
+    <color name="green_money">#7B820E</color>
+    <color name="green_level">#2B891C</color>
+    <color name="finish_text">#422A61</color>
+    <color name="easy_task">#2D7600</color>
+    <color name="normal_task">#E38B08</color>
+    <color name="hard_task">#C52A20</color>
+    <color name="task_money">#A0A919</color>
+    <color name="task_point">#E9974B</color>
+    <color name="background_task">#EAEAEA</color>
 </resources>

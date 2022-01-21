@@ -8,4 +8,97 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <style name="Widget.Button.Toggle" parent="android:Widget">
+        <item name="android:background">@drawable/ic_toggle_sound_bg</item>
+        <item name="android:disabledAlpha">?android:attr/disabledAlpha</item>
+    </style>
+    <style name="toggleButton">
+        <item name="android:buttonStyleToggle">@style/Widget.Button.Toggle</item>
+        <item name="android:textOn"></item>
+        <item name="android:textOff"></item>
+    </style>
+
+
+    <style name="progressBar" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/shape_progressbar</item>
+    </style>
+
+
+    <style name="editText">
+        <item name="android:background">@drawable/shape_rounded_edit_text</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/color_username</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="textView">
+        <item name="fontFamily">@font/rubik_one</item>
+    </style>
+    <style name="textView.14sp">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/progress_bar_brown</item>
+    </style>
+    <style name="textView.18sp">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/green_money</item>
+    </style>
+    <style name="textView.18sp.blue">
+        <item name="android:textColor">@color/blue_main</item>
+    </style>
+    <style name="textView.24sp">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="textView.24sp.green">
+        <item name="android:textColor">@color/task_money</item>
+    </style>
+    <style name="textView.24sp.orange">
+        <item name="android:textColor">@color/task_point</item>
+    </style>
+    <style name="textView.36sp">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/green_level</item>
+    </style>
+    <style name="textView.48sp">
+        <item name="android:textSize">48sp</item>
+        <item name="android:textColor">@color/finish_text</item>
+    </style>
+    <style name="textView.complexity">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/easy_task</item>
+    </style>
+
+    <style name="line">
+        <item name="android:background">@color/blue_main</item>
+    </style>
+    <style name="result">
+        <item name="android:background">@drawable/shape_rounded_edit_text</item>
+        <item name="android:textColor">@color/blue_main</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="task">
+        <item name="android:background">@drawable/shape_task</item>
+    </style>
+
+    <style name="imageView">
+        <item name="android:background">@null</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="btn">
+        <item name="android:background">@null</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+    <style name="btn.round">
+        <item name="android:background">@drawable/shape_round_btn</item>
+    </style>
+    <style name="btn.round.white">
+        <item name="android:background">@drawable/shape_round_btn_white</item>
+    </style>
+
+
+
 </resources>

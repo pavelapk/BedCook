@@ -3,4 +3,6 @@
     <string name="delete">Delete</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="username_blank_error">Введите имя</string>
+    <string name="hint_username">Username</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
