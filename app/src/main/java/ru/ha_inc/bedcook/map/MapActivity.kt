@@ -3,8 +3,8 @@ package ru.ha_inc.bedcook.map
 import android.content.Intent
 import android.media.AudioManager
 import android.media.SoundPool
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityMapBinding
-import ru.ha_inc.bedcook.databinding.ActivityProfileBinding
 import ru.ha_inc.bedcook.order.OrderActivity
 
 class MapActivity : AppCompatActivity() {

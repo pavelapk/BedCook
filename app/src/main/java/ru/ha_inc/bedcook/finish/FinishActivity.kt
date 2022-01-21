@@ -46,7 +46,7 @@ class FinishActivity : AppCompatActivity() {
             stars.forEach {
                 it.visibility = View.INVISIBLE
             }
-            for(i in 0 until countStars){
+            for (i in 0 until countStars) {
                 stars[i].visibility = View.VISIBLE
                 //почему-то ест говна
                 //soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
@@ -57,8 +57,13 @@ class FinishActivity : AppCompatActivity() {
 
         binding.btnGoBack.setOnClickListener {
             soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
-            viewModelProfile.getReward(viewModelFinish.salaryResult.value?:0, viewModelFinish.pointBonusResult.value?:0)
-            startActivity(Intent(this, ProfileActivity::class.java))
+            viewModelProfile.getReward(
+                viewModelFinish.salaryResult.value ?: 0,
+                viewModelFinish.pointBonusResult.value ?: 0
+            )
+            startActivity(Intent(this, ProfileActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
         }
 
 
