@@ -69,6 +69,7 @@
         <item name="android:textColor">@color/easy_task</item>
     </style>
 
+
     <style name="line">
         <item name="android:background">@color/blue_main</item>
     </style>

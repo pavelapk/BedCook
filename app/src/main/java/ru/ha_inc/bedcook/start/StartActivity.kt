@@ -1,6 +1,8 @@
 package ru.ha_inc.bedcook.start
 
 import android.content.Intent
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +13,14 @@ import ru.ha_inc.bedcook.databinding.ActivityStartBinding
 import ru.ha_inc.bedcook.profile.ProfileActivity
 import ru.ha_inc.bedcook.utils.MusicService
 
+
 class StartActivity : AppCompatActivity(R.layout.activity_start) {
 
     private val binding by viewBinding(ActivityStartBinding::bind)
     private val viewModel by viewModels<StartViewModel>()
+
+    private var soundPool: SoundPool? = null
+    private val soundId = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +29,9 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
             fitsSystemWindows = false, rootView = binding.root
         )
 
-//        startService(Intent(this, MusicService::class.java))
+        soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
+        soundPool?.load(baseContext, R.raw.btn, 1)
+
 
         viewModel.gameSound.observe(this) {
             binding.btnSound.isChecked = it
@@ -36,12 +44,14 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
 
 
         binding.btnSound.setOnClickListener {
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
             viewModel.toggleSound(binding.btnSound.isChecked)
         }
 
         binding.btnRules.setOnClickListener {
             // startActivity(Intent(this, FullscreenActivity::class.java))
             viewModel.runVideoRules()
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
         }
 
         viewModel.username.observe(this) {
@@ -51,6 +61,7 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
         binding.btnPlay.setOnClickListener {
             viewModel.onPlayClick(binding.etUsername.text.toString(),
                 onSuccess = {
+                    soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
                     startActivity(Intent(this, ProfileActivity::class.java))
                 },
                 onFailure = {

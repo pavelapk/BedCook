@@ -50,7 +50,10 @@ class ProfileViewModel(app: Application) : AndroidViewModel(app) {
 
     fun addPoint() {
         viewModelScope.launch {
-            _score.value += 300
+            if (_money.value >= 1000) {
+                _score.value += 100
+                _money.value -= 1000
+            }
             levelUp()
             profileRepository.updateProfile(
                 Profile(
