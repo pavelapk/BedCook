@@ -13,7 +13,10 @@
 
     <uses-feature android:name="android.hardware.camera.ar" />
 
+
+
     <application
+        android:name=".BedCookApplication"
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,6 +33,9 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
+        <service
+            android:name=".utils.MusicService"
+            android:enabled="true" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
