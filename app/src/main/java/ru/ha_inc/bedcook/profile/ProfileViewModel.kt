@@ -38,7 +38,10 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun addPoint(){
-        _point.value += 300
+        if(_money.value >= 1000){
+            _point.value += 100
+            _money.value -= 1000
+        }
         levelUp()
     }
 

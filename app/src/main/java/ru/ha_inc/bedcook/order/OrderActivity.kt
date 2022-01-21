@@ -1,6 +1,8 @@
 package ru.ha_inc.bedcook.order
 
 import android.content.Intent
+import android.media.AudioManager
+import android.media.SoundPool
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -18,9 +20,17 @@ class OrderActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityOrderBinding::bind)
     private val viewModel by viewModels<OrderViewModel>()
 
+    private var soundPool: SoundPool? = null
+    private val soundId = 1
+    private val soundId2 = 2
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
+
+        soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
+        soundPool?.load(baseContext, R.raw.btn, 1)
+        soundPool?.load(baseContext, R.raw.btn_next, 2)
 
         viewModel.complexity.observe(this) {
             binding.ivTask.background.level = it
@@ -39,9 +49,11 @@ class OrderActivity : AppCompatActivity() {
             binding.ivTask.setImageResource(it.drawable)
         }
         binding.btnBack.setOnClickListener {
-            startActivity(Intent(this, MapActivity::class.java))
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
+            finish()
         }
         binding.btnNext.setOnClickListener {
+            soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
             startActivity(Intent(this, FinishActivity::class.java))
         }
 

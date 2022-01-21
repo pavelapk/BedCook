@@ -1,6 +1,8 @@
 package ru.ha_inc.bedcook.profile
 
 import android.content.Intent
+import android.media.AudioManager
+import android.media.SoundPool
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -19,9 +21,15 @@ class ProfileActivity : AppCompatActivity() {
     private val viewModelStart by viewModels<StartViewModel>()
     private val viewModelProfile by viewModels<ProfileViewModel>()
 
+    private var soundPool: SoundPool? = null
+    private val soundId = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
+        soundPool?.load(baseContext, R.raw.btn, 1)
 
         viewModelProfile.level.observe(this) {
             binding.tvLevel.text = it.toString()
@@ -36,14 +44,17 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.btnExit.setOnClickListener {
-           startActivity(Intent(this, StartActivity::class.java))
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
+            startActivity(Intent(this, StartActivity::class.java))
         }
 
         binding.btnNextDay.setOnClickListener {
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
             startActivity(Intent(this, MapActivity::class.java))
         }
 
         binding.btnShop.setOnClickListener {
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
             viewModelProfile.addPoint()
         }
 
