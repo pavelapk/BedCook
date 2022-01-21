@@ -25,7 +25,8 @@ class StartActivity : AppCompatActivity() {
         }
 
         binding.btnRules.setOnClickListener {
-            startActivity(Intent(this, FullscreenActivity::class.java))
+           // startActivity(Intent(this, FullscreenActivity::class.java))
+            viewModel.runVideoRules()
         }
 
         viewModel.username.observe(this) {

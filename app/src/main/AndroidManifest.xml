@@ -16,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BedCook">
         <activity
+            android:name=".order.OrderActivity"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name=".map.MapActivity"
+            android:exported="false" />
+        <activity
             android:name=".finish.FinishActivity"
             android:exported="false" />
         <activity

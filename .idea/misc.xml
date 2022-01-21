@@ -15,8 +15,15 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_result.xml" value="0.2703125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_round_btn.xml" value="0.5703125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_round_btn_play.xml" value="0.5703125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_round_btn_white.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_rounded_edit_text.xml" value="0.4473958333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_task.xml" value="0.2703125" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_task_easy.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_task_hard.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/drawable/shape_task_normal.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_finish.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_map.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_order.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_profile.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/BedCook/app/src/main/res/layout/activity_start.xml" value="0.4" />
       </map>

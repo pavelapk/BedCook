@@ -130,7 +130,7 @@
 
     <ImageView
         android:id="@+id/ivLevel"
-        style="@style/btn"
+        style="@style/imageView"
         android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation 'com.google.ar:core:1.29.0'
     implementation project(path: ':arsceneview')
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
     def lifecycleVersion = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
