@@ -44,11 +44,10 @@ class FootprintSelectionVisualizer : SelectionVisualizer {
         val box = (node as? ModelNode)?.renderableInstance?.filamentAsset?.boundingBox
         val halfExtent = box?.halfExtent
         if (halfExtent != null) {
-            val size = halfExtent.average().toFloat() * 16f // 2 * sqrt(2)/2 * 10
-            Log.d("DADAYA", "applySelectionVisual: $size")
+            val size = (halfExtent[0] + halfExtent[2]) * 8f // /2 * sqrt(2)/2 * 10
+            Log.d("DADAYA", "applySelectionVisual: ${halfExtent.map { it * 2 }}")
             footprintNode.scale = size
         }
-
     }
 
     override fun removeSelectionVisual(node: BaseTransformableNode) {

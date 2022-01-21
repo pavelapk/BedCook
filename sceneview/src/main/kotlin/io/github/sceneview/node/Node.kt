@@ -1,5 +1,6 @@
 package io.github.sceneview.node
 
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewConfiguration
 import androidx.lifecycle.LifecycleOwner
@@ -56,7 +57,7 @@ open class Node(
     protected open val lifecycle: SceneLifecycle? get() = sceneView?.lifecycle
     protected val lifecycleScope get() = sceneView?.lifecycleScope
     protected val renderer: Renderer? get() = sceneView?.renderer
-    private val collisionSystem: CollisionSystem? get() = sceneView?.collisionSystem
+    protected val collisionSystem: CollisionSystem? get() = sceneView?.collisionSystem
 
     val isAttached get() = sceneView != null
 
@@ -636,6 +637,7 @@ open class Node(
                         handled = true
                         // If this is an ACTION_UP event, it's time to call the listener.
                         if (actionMasked == MotionEvent.ACTION_UP && onTouched != null) {
+                            Log.d("DADAYA", "onTouchEvent: ${pickHitResult.point}")
                             onTouched!!.invoke(pickHitResult, motionEvent)
                             this.touchTrackingData = null
                         }

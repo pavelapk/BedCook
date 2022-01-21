@@ -24,6 +24,7 @@ import com.google.android.filament.Viewport;
 import com.google.android.filament.android.UiHelper;
 import com.google.ar.sceneform.utilities.AndroidPreconditions;
 import com.google.ar.sceneform.utilities.Preconditions;
+
 import io.github.sceneview.environment.Environment;
 import io.github.sceneview.scene.CameraKt;
 import io.github.sceneview.scene.SceneKt;
@@ -103,7 +104,7 @@ public class Renderer implements UiHelper.RendererCallback {
      */
     public void destroyAllResources() {
         ResourceManager.getInstance().destroyAllResources();
-        EngineInstance.destroyEngine();
+//        EngineInstance.destroyEngine();
     }
 
     /**

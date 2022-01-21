@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">BedCook</string>
-    <string name="dummy_button">Dummy Button</string>
+    <string name="delete">Delete</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="username_blank_error">Введите имя</string>
 </resources>

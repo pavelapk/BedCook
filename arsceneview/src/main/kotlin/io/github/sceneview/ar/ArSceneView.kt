@@ -329,6 +329,7 @@ open class ArSceneView @JvmOverloads constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         estimatedLights?.destroy()
         estimatedLights = null
+        super<SceneView>.onDestroy(owner)
     }
 
     override fun getLifecycle(): ArSceneLifecycle =
@@ -463,7 +464,7 @@ open class ArSceneView @JvmOverloads constructor(
     fun setOnTapArPlaneGlbModel(
         glbFileLocation: String,
         onLoaded: ((renderable: Renderable) -> Unit)? = null,
-        onAdded: ((node: ArNode, renderableInstance: RenderableInstance) -> Unit)? = null,
+        onAdded: ((node: TransformableArNode, renderableInstance: RenderableInstance) -> Unit)? = null,
         onError: ((exception: Throwable) -> Unit)? = null,
     ) {
         lifecycle.owner.lifecycleScope.launchWhenCreated {

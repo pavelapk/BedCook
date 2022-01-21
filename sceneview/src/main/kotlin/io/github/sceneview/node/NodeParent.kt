@@ -79,7 +79,7 @@ interface NodeParent {
      * NodeParent, otherwise traversal starts with its children.
      */
     val allChildren: List<Node>
-        get() = children.flatMap { it.allChildren }
+        get() = children.flatMap { it.allChildren } + children
 
 
     /**
@@ -100,6 +100,8 @@ interface NodeParent {
      * @param action The method to call on each node.
      */
     fun callOnHierarchy(action: (Node) -> Unit) {
-        hierarchy.forEach { it.callOnHierarchy(action) }
+        hierarchy.forEach {
+            action.invoke(it)
+        }
     }
 }

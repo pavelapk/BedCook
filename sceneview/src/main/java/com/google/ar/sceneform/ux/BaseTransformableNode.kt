@@ -19,6 +19,7 @@ import com.google.ar.sceneform.PickHitResult
 import android.view.MotionEvent
 import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
+import io.github.sceneview.SceneView
 import io.github.sceneview.node.Node
 import io.github.sceneview.node.NodeParent
 import java.util.ArrayList
@@ -34,6 +35,8 @@ abstract class BaseTransformableNode(
     private val transformationSystem: TransformationSystem? = null
 ) : Node(position, rotationQuaternion, scales, parent) {
     private val controllers = ArrayList<BaseTransformationController<*>>()
+
+    val onSelected = mutableListOf<((node: BaseTransformableNode) -> Unit)>()
 
     init {
         onTouched = { hitTestResult: PickHitResult?, motionEvent: MotionEvent? ->
@@ -64,8 +67,11 @@ abstract class BaseTransformableNode(
      *
      * @return true if the node was successfully selected
      */
-    fun select(): Boolean {
-        return transformationSystem?.selectNode(this) ?: false
+    fun select(): Boolean = if (transformationSystem?.selectNode(this) == true) {
+        onSelected.forEach { it(this) }
+        true
+    } else {
+        false
     }
 
     fun onTap(pickHitResult: PickHitResult?, motionEvent: MotionEvent?) {

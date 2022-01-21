@@ -12,7 +12,7 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
     <io.github.sceneview.ar.ArSceneView
-        android:id="@+id/sceneView"
+        android:id="@+id/arSceneView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -34,6 +34,27 @@
             android:textSize="50sp"
             android:textStyle="bold" />
 
+        <ImageButton
+            android:id="@+id/btnTaskDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:srcCompat="@android:drawable/checkbox_on_background" />
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/ivResult"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="300dp"-->
+        <!--            android:layout_marginTop="50dp"-->
+        <!--            app:srcCompat="@android:color/transparent" />-->
+
+        <io.github.sceneview.SceneView
+            android:id="@+id/sceneView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="50dp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
             style="@style/Widget.Theme.BedCook.ButtonBar.Fullscreen"
@@ -52,11 +73,11 @@
                 tools:listitem="@layout/item_selectable_object" />
 
             <Button
-                android:id="@+id/dummy_button"
+                android:id="@+id/btnDelete"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dummy_button" />
+                android:text="@string/delete" />
 
         </LinearLayout>
     </FrameLayout>

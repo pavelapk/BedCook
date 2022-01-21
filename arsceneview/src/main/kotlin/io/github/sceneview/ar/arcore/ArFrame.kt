@@ -264,9 +264,9 @@ fun Collection<HitResult>.firstValid(camera: Camera) = firstOrNull { hitResult -
         is Plane -> trackable.isPoseInPolygon(hitResult.hitPose) &&
                 hitResult.hitPose.calculateDistanceToPlane(camera.pose) > 0
         // DepthPoints are only returned if Config.DepthMode is set to AUTOMATIC.
-        is DepthPoint -> true
-        is Point -> trackable.orientationMode == Point.OrientationMode.ESTIMATED_SURFACE_NORMAL
-        is InstantPlacementPoint -> true
+//        is DepthPoint -> true
+//        is Point -> trackable.orientationMode == Point.OrientationMode.ESTIMATED_SURFACE_NORMAL
+//        is InstantPlacementPoint -> true
         else -> false
     }
 }
