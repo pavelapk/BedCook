@@ -30,7 +30,7 @@ class ProfileViewModel : ViewModel() {
 
 
     private fun levelUp(){
-        while(_point.value >= _level.value * 100 ){
+        while(_point.value >= _level.value * 100){
             _point.value -= _level.value * 100
             _level.value += 1
             _money.value += moneyBonusLevelUp
@@ -40,6 +40,11 @@ class ProfileViewModel : ViewModel() {
     fun addPoint(){
         _point.value += 300
         levelUp()
+    }
+
+    fun getReward(money: Int, point: Int){
+        _money.value += money
+        _point.value += point
     }
 
 }

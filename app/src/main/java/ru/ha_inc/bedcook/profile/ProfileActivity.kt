@@ -40,7 +40,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.btnNextDay.setOnClickListener {
-            startActivity(Intent(this, OrderActivity::class.java))
+            startActivity(Intent(this, MapActivity::class.java))
         }
 
         binding.btnShop.setOnClickListener {
