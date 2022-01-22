@@ -29,4 +29,5 @@
     <color name="task_point">#E9974B</color>
     <color name="background_task">#EAEAEA</color>
     <color name="transparent">#89000000</color>
+    <color name="launch">#DBE1FF</color>
 </resources>
