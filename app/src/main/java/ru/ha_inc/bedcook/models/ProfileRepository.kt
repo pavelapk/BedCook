@@ -62,7 +62,6 @@ class ProfileRepository(context: Context) {
         )
         try {
             db.collection("progress").add(profile).await().let { documentReference ->
-                Log.d("DADAYA", "DocumentSnapshot added with ID: ${documentReference.id}")
                 profileDocumentRef = documentReference.id
             }
         } catch (e: Exception) {

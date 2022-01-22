@@ -41,7 +41,7 @@ class FinishActivity : AppCompatActivity() {
         soundPool?.load(baseContext, R.raw.btn, 1)
         soundPool?.load(baseContext, R.raw.launch, 2)
 
-        val orderResult = intent.getSerializableExtra(OrderActivity.EXTRA_ORDER) as? OrderResult
+        val orderResult = intent.getSerializableExtra(EXTRA_ORDER_RESULT) as? OrderResult
 
         orderResult?.let {
             viewModelFinish.updateProfile(it)

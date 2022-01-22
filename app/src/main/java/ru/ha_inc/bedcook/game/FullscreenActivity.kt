@@ -27,7 +27,6 @@ import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
 import ru.ha_inc.bedcook.finish.FinishActivity
 import ru.ha_inc.bedcook.models.Order
-import ru.ha_inc.bedcook.models.OrderResult
 import ru.ha_inc.bedcook.order.OrderActivity
 import java.io.IOException
 
@@ -78,28 +77,7 @@ class FullscreenActivity : AppCompatActivity() {
             it.printStackTrace()
         }
 
-//        binding.sceneView.onTouchAr = { hitResult, _ ->
-//            Log.d("DADAYA", hitResult.distance.toString())
-//            Log.d("DADAYA", hitResult.hitPose.toString())
-//            anchorOrMove(hitResult.createAnchor())
-//        }
-//        lifecycleScope.launchWhenCreated {
-
-//        }
-//        binding.sceneView.nodeGestureRecognizer
         binding.btnDelete.setOnClickListener {
-//            modelNode?.apply {
-//                binding.sceneView.removeChild(this)
-//                destroy()
-//            }
-//            binding.sceneView.planeRenderer.isEnabled = true
-//            modelNode = null
-
-            Log.d(
-                "DADAYA",
-                "dummyButton: ${binding.arSceneView.nodeGestureRecognizer.selectedNode?.position}"
-            )
-
             binding.arSceneView.nodeGestureRecognizer.selectedNode?.apply {
                 binding.arSceneView.removeChild(this)
                 destroy()
@@ -110,14 +88,7 @@ class FullscreenActivity : AppCompatActivity() {
         val adapter = SelectableObjectAdapter(viewModel.objects) {
             Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
             binding.arSceneView.setOnTapArPlaneGlbModel(it.modelPath,
-                onLoaded = {
-                    Log.d("DADAYA", "onLoaded: $it")
-                },
-                onAdded = { arNode, renderableInstance ->
-                    Log.d(
-                        "DADAYA",
-                        "onAdded: ${arNode.pose} $renderableInstance}"
-                    )
+                onAdded = { arNode, _ ->
                     resetSceneViewOnTouch()
                     arNode.onSelected.add {
                         resetSceneViewOnTouch()
@@ -138,7 +109,6 @@ class FullscreenActivity : AppCompatActivity() {
         binding.btnTaskDetails.setOnClickListener {
             soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
 
-            val sceneView = binding.sceneView
             if (binding.sendOrder.visibility != View.VISIBLE) {
                 binding.sendOrder.visibility = View.VISIBLE
                 viewModel.renderSceneView(binding.arSceneView, binding.sceneView)
@@ -146,9 +116,6 @@ class FullscreenActivity : AppCompatActivity() {
                 viewModel.clearSceneView(binding.sceneView)
                 binding.sendOrder.visibility = View.GONE
             }
-
-
-//            sceneView.renderer.render(System.nanoTime(), false)
         }
 
         binding.btnFinish.setOnClickListener { _ ->

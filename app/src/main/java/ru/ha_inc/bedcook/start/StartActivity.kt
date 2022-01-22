@@ -51,8 +51,6 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
         }
 
         binding.btnRules.setOnClickListener {
-            // startActivity(Intent(this, FullscreenActivity::class.java))
-            viewModel.runVideoRules()
             soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
 //            startActivity(Intent(this, RulesActivity::class.java))
             watchYoutubeVideo("dQw4w9WgXcQ")
@@ -75,7 +73,7 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
         }
     }
 
-    fun watchYoutubeVideo(id: String) {
+    private fun watchYoutubeVideo(id: String) {
         val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
         val webIntent = Intent(
             Intent.ACTION_VIEW,

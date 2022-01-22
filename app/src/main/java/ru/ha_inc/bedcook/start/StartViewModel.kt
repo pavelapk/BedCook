@@ -34,10 +34,6 @@ class StartViewModel(app: Application) : AndroidViewModel(app) {
         profileRepository.musicEnabled = isPlay
     }
 
-    fun runVideoRules() {
-        //вкл видео
-    }
-
     fun onPlayClick(username: String, onSuccess: () -> Unit, onFailure: (Int) -> Unit) {
         viewModelScope.launch {
             if (username.isNotBlank()) {
