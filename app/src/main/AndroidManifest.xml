@@ -40,6 +40,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".rules.RulesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".map.MapsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".order.OrderActivity"
             android:exported="true"
             android:theme="@style/Theme.BedCook.Fullscreen.TranslucentFullscreen" />
