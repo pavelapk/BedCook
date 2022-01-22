@@ -10,7 +10,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import io.github.sceneview.utils.setFullScreen
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityStartBinding
+
 import ru.ha_inc.bedcook.profile.ProfileActivity
+import ru.ha_inc.bedcook.rules.RulesActivity
 import ru.ha_inc.bedcook.utils.MusicService
 
 
@@ -52,6 +54,7 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
             // startActivity(Intent(this, FullscreenActivity::class.java))
             viewModel.runVideoRules()
             soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
+            startActivity(Intent(this, RulesActivity::class.java))
         }
 
         viewModel.username.observe(this) {

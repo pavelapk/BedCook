@@ -34,7 +34,7 @@ class FinishActivity : AppCompatActivity() {
 
         soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
         soundPool?.load(baseContext, R.raw.btn, 1)
-        soundPool?.load(baseContext, R.raw.star, 2)
+        soundPool?.load(baseContext, R.raw.launch, 2)
 
         viewModelFinish.stars.observe(this) { countStars ->
             binding.tvResult1.text = "100%"

@@ -23,23 +23,22 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <TextView
-            android:id="@+id/tvTop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#80CC0000"
-            android:gravity="top"
-            android:text="top"
-            android:textColor="?attr/fullscreenTextColor"
-            android:textSize="50sp"
-            android:textStyle="bold" />
 
         <ImageButton
+            android:id="@+id/btnDelete"
+            style="@style/btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:text="@string/delete" />
+
+        <ImageView
             android:id="@+id/btnTaskDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/task"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="end"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            app:srcCompat="@drawable/example" />
 
         <!--        <ImageView-->
         <!--            android:id="@+id/ivResult"-->
@@ -48,12 +47,6 @@
         <!--            android:layout_marginTop="50dp"-->
         <!--            app:srcCompat="@android:color/transparent" />-->
 
-        <io.github.sceneview.SceneView
-            android:id="@+id/sceneView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="50dp"
-            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
@@ -72,14 +65,88 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_selectable_object" />
 
-            <Button
-                android:id="@+id/btnDelete"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/delete" />
-
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sendOrder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:visibility="gone"
+            tools:context=".send_order.SendOrderActivity">
+
+            <ImageView
+                android:id="@+id/ivOrder"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/glCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/shape_rounded_edit_text" />
+
+            <io.github.sceneview.SceneView
+                android:id="@+id/sceneView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glCenter" />
+
+            <ImageButton
+                android:id="@+id/btnCancel"
+                style="@style/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_cancel" />
+
+            <ImageView
+                android:id="@+id/ivTaskCake"
+                style="@style/task"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/glCenter"
+                app:layout_constraintEnd_toEndOf="@+id/ivOrder"
+                app:layout_constraintStart_toStartOf="@+id/ivOrder"
+                app:layout_constraintTop_toTopOf="@+id/ivOrder"
+                app:srcCompat="@drawable/example" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.4" />
+
+            <ImageButton
+                android:id="@+id/btnFinish"
+                style="@style/btn"
+                android:layout_width="226dp"
+                android:layout_height="93dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/img_btn_finish" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
 </FrameLayout>
