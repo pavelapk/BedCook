@@ -1,5 +1,6 @@
 package ru.ha_inc.bedcook.game
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -25,9 +26,12 @@ import android.view.PixelCopy
 import android.os.HandlerThread
 
 import android.graphics.Bitmap
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Handler
 import android.view.View
 import io.github.sceneview.SceneView
+import ru.ha_inc.bedcook.finish.FinishActivity
 import ru.ha_inc.bedcook.utils.Math.average
 import java.io.IOException
 
@@ -40,6 +44,10 @@ class FullscreenActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityFullscreenBinding::bind)
     private var modelNode: ArNode? = null
+
+    private var soundPool: SoundPool? = null
+    private val soundId = 1
+    private val soundId2 = 2
 
     private val objects = listOf(
         SelectableObject("Корж", R.drawable.sceneview_logo, "cake_layer.glb"),
@@ -80,6 +88,10 @@ class FullscreenActivity : AppCompatActivity() {
             fullScreen = true, hideSystemBars = false,
             fitsSystemWindows = false, rootView = binding.root
         )
+
+        soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
+        soundPool?.load(baseContext, R.raw.btn_order, 1)
+        soundPool?.load(baseContext, R.raw.star, 2)
 
         binding.arSceneView.configureSession {
             it.depthEnabled = false
@@ -131,9 +143,11 @@ class FullscreenActivity : AppCompatActivity() {
             rotation = Vector3(-20f, 0f, 0f)
         }
         binding.btnTaskDetails.setOnClickListener { _ ->
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
+
             val sceneView = binding.sceneView
-            if (sceneView.visibility != View.VISIBLE) {
-                sceneView.visibility = View.VISIBLE
+            if (binding.sendOrder.visibility != View.VISIBLE) {
+                binding.sendOrder.visibility = View.VISIBLE
                 lifecycleScope.launch {
 //                withContext(Dispatchers.IO) {
                     sceneView.callOnHierarchy {
@@ -153,12 +167,18 @@ class FullscreenActivity : AppCompatActivity() {
 //                }
                 }
             } else {
-                sceneView.visibility = View.GONE
+                binding.sendOrder.visibility = View.GONE
             }
-
-
 //            sceneView.renderer.render(System.nanoTime(), false)
+        }
 
+        binding.btnFinish.setOnClickListener {
+            soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
+            startActivity(Intent(this, FinishActivity::class.java))
+        }
+        binding.btnCancel.setOnClickListener {
+            soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
+            binding.sendOrder.visibility = View.GONE
         }
     }
 

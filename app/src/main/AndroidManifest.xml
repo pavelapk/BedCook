@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.ha_inc.bedcook">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -14,7 +13,6 @@
 
     <uses-feature android:name="android.hardware.camera.ar" />
 
-
     <application
         android:name=".BedCookApplication"
         android:allowBackup="true"
@@ -24,7 +22,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BedCook">
-
+        <activity
+            android:name=".send_order.SendOrderActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BedCook.Fullscreen.TranslucentFullscreen" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -36,10 +37,14 @@
         <service
             android:name=".utils.MusicService"
             android:enabled="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".rules.RulesActivity"
+            android:exported="false" />
         <activity
             android:name=".map.MapsActivity"
             android:exported="true"
@@ -48,7 +53,6 @@
             android:name=".order.OrderActivity"
             android:exported="true"
             android:theme="@style/Theme.BedCook.Fullscreen.TranslucentFullscreen" />
-
         <activity
             android:name=".map.MapActivity"
             android:exported="false"

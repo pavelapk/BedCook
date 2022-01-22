@@ -11,6 +11,7 @@ import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityOrderBinding
 import ru.ha_inc.bedcook.databinding.ActivityStartBinding
 import ru.ha_inc.bedcook.finish.FinishActivity
+import ru.ha_inc.bedcook.game.FullscreenActivity
 import ru.ha_inc.bedcook.map.MapActivity
 import ru.ha_inc.bedcook.start.StartActivity
 import ru.ha_inc.bedcook.start.StartViewModel
@@ -54,7 +55,7 @@ class OrderActivity : AppCompatActivity() {
         }
         binding.btnNext.setOnClickListener {
             soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
-            startActivity(Intent(this, FinishActivity::class.java))
+            startActivity(Intent(this, FullscreenActivity::class.java))
         }
 
 
