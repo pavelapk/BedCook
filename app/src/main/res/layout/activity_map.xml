@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,40 +20,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        map:uiRotateGestures="false"
+        map:uiScrollGestures="true"
+        map:uiTiltGestures="false"
+        map:uiZoomControls="false"
+        map:uiZoomGestures="true" />
 
-    <ImageButton
-        android:id="@+id/order1"
-        style="@style/btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/order2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/img_order_easy" />
+<!--    <ImageButton-->
+    <!--        android:id="@+id/order1"-->
+    <!--        style="@style/btn"-->
+    <!--        android:layout_width="60dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/order2"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:srcCompat="@drawable/img_order_easy" />-->
 
-    <ImageButton
-        android:id="@+id/order2"
-        style="@style/btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="@+id/order1"
-        app:layout_constraintEnd_toStartOf="@+id/order3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/order1"
-        app:srcCompat="@drawable/img_order_normal" />
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/order2"-->
+    <!--        style="@style/btn"-->
+    <!--        android:layout_width="60dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/order1"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/order3"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/order1"-->
+    <!--        app:srcCompat="@drawable/img_order_normal" />-->
 
-    <ImageButton
-        android:id="@+id/order3"
-        style="@style/btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="@+id/order1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/order2"
-        app:srcCompat="@drawable/img_order_hard" />
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/order3"-->
+    <!--        style="@style/btn"-->
+    <!--        android:layout_width="60dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/order1"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/order2"-->
+    <!--        app:srcCompat="@drawable/img_order_hard" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

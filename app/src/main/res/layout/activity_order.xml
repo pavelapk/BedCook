@@ -81,12 +81,12 @@
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/ivPoint"
+        app:layout_constraintBottom_toTopOf="@+id/ivScore"
         app:layout_constraintStart_toStartOf="@+id/ivOrder"
         app:srcCompat="@drawable/ic_money" />
 
     <ImageView
-        android:id="@+id/ivPoint"
+        android:id="@+id/ivScore"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
@@ -129,14 +129,14 @@
         app:layout_constraintTop_toTopOf="@+id/ivMoney" />
 
     <TextView
-        android:id="@+id/tvPoint"
+        android:id="@+id/tvScore"
         style="@style/textView.24sp.orange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="+ 10"
-        app:layout_constraintBottom_toBottomOf="@+id/ivPoint"
-        app:layout_constraintStart_toEndOf="@+id/ivPoint"
-        app:layout_constraintTop_toTopOf="@+id/ivPoint" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivScore"
+        app:layout_constraintStart_toEndOf="@+id/ivScore"
+        app:layout_constraintTop_toTopOf="@+id/ivScore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

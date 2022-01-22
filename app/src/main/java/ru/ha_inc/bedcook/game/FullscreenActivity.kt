@@ -1,33 +1,31 @@
 package ru.ha_inc.bedcook.game
 
-import android.graphics.Color
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
+import android.view.PixelCopy
+import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.ar.core.Anchor
 import com.google.ar.core.Config
 import com.google.ar.sceneform.math.Vector3
+import io.github.sceneview.SceneView
 import io.github.sceneview.ar.arcore.depthEnabled
 import io.github.sceneview.ar.arcore.instantPlacementEnabled
 import io.github.sceneview.ar.node.ArNode
 import io.github.sceneview.node.ModelNode
 import io.github.sceneview.utils.setFullScreen
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
-import android.view.PixelCopy
-
-import android.os.HandlerThread
-
-import android.graphics.Bitmap
-import android.os.Handler
-import android.view.View
-import io.github.sceneview.SceneView
+import ru.ha_inc.bedcook.models.Order
+import ru.ha_inc.bedcook.order.OrderActivity
 import ru.ha_inc.bedcook.utils.Math.average
 import java.io.IOException
 
@@ -39,47 +37,18 @@ import java.io.IOException
 class FullscreenActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityFullscreenBinding::bind)
+    private val viewModel by viewModels<GameViewModel>()
     private var modelNode: ArNode? = null
 
-    private val objects = listOf(
-        SelectableObject("Корж", R.drawable.sceneview_logo, "cake_layer.glb"),
-        SelectableObject("Куб", R.drawable.sceneview_logo, "cube.glb"),
-        SelectableObject("Вишня", R.drawable.sceneview_logo, "cherry.glb"),
-        SelectableObject("Торт", R.drawable.sceneview_logo, "cake.glb"),
-    )
-
-    private val adapter =
-        SelectableObjectAdapter(objects) {
-            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
-            binding.arSceneView.setOnTapArPlaneGlbModel(it.modelPath,
-                onLoaded = {
-                    Log.d("DADAYA", "onLoaded: $it")
-                },
-                onAdded = { arNode, renderableInstance ->
-                    Log.d(
-                        "DADAYA",
-                        "onAdded: ${arNode.pose} $renderableInstance}"
-                    )
-                    resetSceneViewOnTouch()
-                    arNode.onSelected.add {
-                        resetSceneViewOnTouch()
-                    }
-                },
-                onError = {
-                    it.printStackTrace()
-                    resetSceneViewOnTouch()
-                }
-            )
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO base activity with fullscreen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fullscreen)
         setFullScreen(
             fullScreen = true, hideSystemBars = false,
             fitsSystemWindows = false, rootView = binding.root
         )
+
+        val order = intent.getSerializableExtra(OrderActivity.EXTRA_ORDER) as? Order
 
         binding.arSceneView.configureSession {
             it.depthEnabled = false
@@ -125,6 +94,29 @@ class FullscreenActivity : AppCompatActivity() {
 
         }
 
+        val adapter = SelectableObjectAdapter(viewModel.objects) {
+            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+            binding.arSceneView.setOnTapArPlaneGlbModel(it.modelPath,
+                onLoaded = {
+                    Log.d("DADAYA", "onLoaded: $it")
+                },
+                onAdded = { arNode, renderableInstance ->
+                    Log.d(
+                        "DADAYA",
+                        "onAdded: ${arNode.pose} $renderableInstance}"
+                    )
+                    resetSceneViewOnTouch()
+                    arNode.onSelected.add {
+                        resetSceneViewOnTouch()
+                    }
+                },
+                onError = {
+                    it.printStackTrace()
+                    resetSceneViewOnTouch()
+                }
+            )
+        }
+
         binding.recyclerSelectObject.adapter = adapter
         binding.sceneView.camera.apply {
             position = Vector3(0f, 0.1f, 0.2f)
@@ -134,25 +126,9 @@ class FullscreenActivity : AppCompatActivity() {
             val sceneView = binding.sceneView
             if (sceneView.visibility != View.VISIBLE) {
                 sceneView.visibility = View.VISIBLE
-                lifecycleScope.launch {
-//                withContext(Dispatchers.IO) {
-                    sceneView.callOnHierarchy {
-                        if (it is ModelNode) {
-                            it.destroy()
-                        }
-                    }
-                    binding.arSceneView.children.filterIsInstance<ArNode>().let {
-                        val avgPos = calcNodesAvgPos(it)
-                        it.forEach { node ->
-                            sceneView.addChild(createModelNodeFromAr(node).apply {
-                                position = Vector3.subtract(node.worldPosition, avgPos)
-                            })
-                        }
-                    }
-
-//                }
-                }
+                viewModel.renderSceneView(binding.arSceneView, binding.sceneView)
             } else {
+                viewModel.clearSceneView(binding.sceneView)
                 sceneView.visibility = View.GONE
             }
 
@@ -168,16 +144,6 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun createModelNodeFromAr(arNode: ArNode): ModelNode {
-        val resultNode = ModelNode(arNode)
-        arNode.children.filterIsInstance<ArNode>().forEach {
-            resultNode.addChild(createModelNodeFromAr(it))
-        }
-        return resultNode
-    }
-
-    private fun calcNodesAvgPos(list: List<ArNode>): Vector3 =
-        list.map { it.worldPosition }.average()
 
     private fun screenshotSceneView(sceneView: SceneView) {
         Handler(mainLooper).post {

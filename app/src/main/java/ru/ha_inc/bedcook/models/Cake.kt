@@ -4,4 +4,4 @@ data class Cake(
     val id: Int,
     val name: String,
     val drawable: Int
-)
+) : java.io.Serializable
