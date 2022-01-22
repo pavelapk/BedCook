@@ -3,6 +3,7 @@ package ru.ha_inc.bedcook.models
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -88,6 +89,15 @@ class ProfileRepository(context: Context) {
             ).filterValues { it != null }
             db.collection("progress").document(profileDocumentRef)
                 .set(profileMap, SetOptions.merge()).await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    suspend fun gameResult(salary: Int) {
+        try {
+            db.collection("progress").document(profileDocumentRef)
+                .update("money", FieldValue.increment(salary.toLong())).await()
         } catch (e: Exception) {
             e.printStackTrace()
         }

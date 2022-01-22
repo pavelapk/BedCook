@@ -12,6 +12,9 @@ import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFinishBinding
 import ru.ha_inc.bedcook.databinding.ActivityProfileBinding
 import ru.ha_inc.bedcook.map.MapActivity
+import ru.ha_inc.bedcook.models.Order
+import ru.ha_inc.bedcook.models.OrderResult
+import ru.ha_inc.bedcook.order.OrderActivity
 import ru.ha_inc.bedcook.order.OrderViewModel
 import ru.ha_inc.bedcook.profile.ProfileActivity
 import ru.ha_inc.bedcook.profile.ProfileViewModel
@@ -19,10 +22,12 @@ import ru.ha_inc.bedcook.start.StartViewModel
 
 class FinishActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_ORDER_RESULT = "EXTRA_ORDER_RESULT"
+    }
+
     private val binding by viewBinding(ActivityFinishBinding::bind)
     private val viewModelFinish by viewModels<FinishViewModel>()
-    private val viewModelOrder by viewModels<OrderViewModel>()
-    private val viewModelProfile by viewModels<ProfileViewModel>()
 
     private var soundPool: SoundPool? = null
     private val soundId = 1
@@ -36,36 +41,35 @@ class FinishActivity : AppCompatActivity() {
         soundPool?.load(baseContext, R.raw.btn, 1)
         soundPool?.load(baseContext, R.raw.launch, 2)
 
-        viewModelFinish.stars.observe(this) { countStars ->
-            binding.tvResult1.text = "100%"
-            binding.tvResult2.text = "90%"
-            binding.tvResult3.text = "98%"
+        val orderResult = intent.getSerializableExtra(OrderActivity.EXTRA_ORDER) as? OrderResult
 
-
-            val stars = arrayOf(binding.ivStar1, binding.ivStar2, binding.ivStar3)
-            stars.forEach {
-                it.visibility = View.INVISIBLE
-            }
-            for (i in 0 until countStars) {
-                stars[i].visibility = View.VISIBLE
-                //почему-то ест говна
-                //soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
-
-            }
+        orderResult?.let {
+            viewModelFinish.updateProfile(it)
+            showResults(it)
         }
-
 
         binding.btnGoBack.setOnClickListener {
             soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
-            viewModelProfile.getReward(
-                viewModelFinish.salaryResult.value ?: 0,
-                viewModelFinish.pointBonusResult.value ?: 0
-            )
             startActivity(Intent(this, ProfileActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             })
         }
 
 
+    }
+
+    private fun showResults(orderResult: OrderResult) {
+        binding.tvResult1.text = "${orderResult.result1}%"
+        binding.tvResult2.text = "${orderResult.result2}%"
+        binding.tvResult3.text = "${orderResult.result3}%"
+
+
+        val stars = arrayOf(binding.ivStar1, binding.ivStar2, binding.ivStar3)
+        stars.forEach {
+            it.visibility = View.INVISIBLE
+        }
+        for (i in 0..orderResult.order.complexity.level) {
+            stars[i].visibility = View.VISIBLE
+        }
     }
 }

@@ -66,13 +66,15 @@
                 tools:listitem="@layout/item_selectable_object" />
 
         </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sendOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:visibility="gone"
-            tools:context=".send_order.SendOrderActivity">
+            tools:context=".send_order.SendOrderActivity"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/ivOrder"

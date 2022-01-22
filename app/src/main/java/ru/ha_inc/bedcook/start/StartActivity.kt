@@ -1,8 +1,10 @@
 package ru.ha_inc.bedcook.start
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.AudioManager
 import android.media.SoundPool
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import io.github.sceneview.utils.setFullScreen
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityStartBinding
-
 import ru.ha_inc.bedcook.profile.ProfileActivity
-import ru.ha_inc.bedcook.rules.RulesActivity
 import ru.ha_inc.bedcook.utils.MusicService
 
 
@@ -54,7 +54,8 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
             // startActivity(Intent(this, FullscreenActivity::class.java))
             viewModel.runVideoRules()
             soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
-            startActivity(Intent(this, RulesActivity::class.java))
+//            startActivity(Intent(this, RulesActivity::class.java))
+            watchYoutubeVideo("dQw4w9WgXcQ")
         }
 
         viewModel.username.observe(this) {
@@ -74,4 +75,16 @@ class StartActivity : AppCompatActivity(R.layout.activity_start) {
         }
     }
 
+    fun watchYoutubeVideo(id: String) {
+        val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$id")
+        )
+        try {
+            startActivity(appIntent)
+        } catch (ex: ActivityNotFoundException) {
+            startActivity(webIntent)
+        }
+    }
 }

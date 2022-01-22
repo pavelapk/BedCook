@@ -1,36 +1,34 @@
 package ru.ha_inc.bedcook.game
 
-import android.graphics.Color
+import android.content.Intent
+import android.graphics.Bitmap
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
+import android.view.PixelCopy
+import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.ar.core.Anchor
 import com.google.ar.core.Config
 import com.google.ar.sceneform.math.Vector3
+import io.github.sceneview.SceneView
 import io.github.sceneview.ar.arcore.depthEnabled
 import io.github.sceneview.ar.arcore.instantPlacementEnabled
 import io.github.sceneview.ar.node.ArNode
-import io.github.sceneview.node.ModelNode
 import io.github.sceneview.utils.setFullScreen
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.ha_inc.bedcook.R
 import ru.ha_inc.bedcook.databinding.ActivityFullscreenBinding
-import android.view.PixelCopy
-
-import android.os.HandlerThread
-
-import android.graphics.Bitmap
-import android.media.AudioManager
-import android.media.SoundPool
-import android.os.Handler
-import android.view.View
-import io.github.sceneview.SceneView
-import ru.ha_inc.bedcook.utils.Math.average
+import ru.ha_inc.bedcook.finish.FinishActivity
+import ru.ha_inc.bedcook.models.Order
+import ru.ha_inc.bedcook.models.OrderResult
+import ru.ha_inc.bedcook.order.OrderActivity
 import java.io.IOException
 
 
@@ -57,6 +55,10 @@ class FullscreenActivity : AppCompatActivity() {
         )
 
         val order = intent.getSerializableExtra(OrderActivity.EXTRA_ORDER) as? Order
+        order?.let {
+            binding.ivTaskCake.setImageResource(it.cake.drawable)
+        }
+
         soundPool = SoundPool(6, AudioManager.STREAM_MUSIC, 0)
         soundPool?.load(baseContext, R.raw.btn_order, 1)
         soundPool?.load(baseContext, R.raw.star, 2)
@@ -133,7 +135,7 @@ class FullscreenActivity : AppCompatActivity() {
             position = Vector3(0f, 0.1f, 0.2f)
             rotation = Vector3(-20f, 0f, 0f)
         }
-        binding.btnTaskDetails.setOnClickListener { _ ->
+        binding.btnTaskDetails.setOnClickListener {
             soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)
 
             val sceneView = binding.sceneView
@@ -149,9 +151,15 @@ class FullscreenActivity : AppCompatActivity() {
 //            sceneView.renderer.render(System.nanoTime(), false)
         }
 
-        binding.btnFinish.setOnClickListener {
+        binding.btnFinish.setOnClickListener { _ ->
             soundPool?.play(soundId2, 1F, 1F, 0, 0, 1F)
-            startActivity(Intent(this, FinishActivity::class.java))
+            order?.let { it ->
+                viewModel.finishTask(it, binding.sceneView) { orderResult ->
+                    startActivity(Intent(this, FinishActivity::class.java).apply {
+                        putExtra(FinishActivity.EXTRA_ORDER_RESULT, orderResult)
+                    })
+                }
+            }
         }
         binding.btnCancel.setOnClickListener {
             soundPool?.play(soundId, 1F, 1F, 0, 0, 1F)

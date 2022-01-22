@@ -10,6 +10,8 @@ import io.github.sceneview.ar.node.ArNode
 import io.github.sceneview.node.ModelNode
 import kotlinx.coroutines.launch
 import ru.ha_inc.bedcook.R
+import ru.ha_inc.bedcook.models.Order
+import ru.ha_inc.bedcook.models.OrderResult
 import ru.ha_inc.bedcook.utils.Math.average
 
 class GameViewModel : ViewModel() {
@@ -54,5 +56,10 @@ class GameViewModel : ViewModel() {
 
     private fun calcNodesAvgPos(list: List<ArNode>): Vector3 =
         list.map { it.worldPosition }.average()
+
+
+    fun finishTask(order: Order, sceneView: SceneView, onSuccess: (OrderResult) -> Unit) {
+        onSuccess.invoke(OrderResult(order, sceneView.hierarchy.size * 10, 100, 100))
+    }
 
 }
